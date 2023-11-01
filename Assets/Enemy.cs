@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour
         atkSpeed = _atkSpeed;
     }
 
-    public main_character sword_man;
+    public maincharc sword_man;
     Image nowHpbar;
 
     RectTransform hpBar;
@@ -38,7 +38,7 @@ public class Enemy : MonoBehaviour
         {
             SetEnemyStatus("Enemy1", 100, 10, 1);
         }
-        nowHpbar = hpBar.transform.GetChild(0).GetComponent(Image)();
+        nowHpbar = hpBar.transform.GetChild(0).GetComponent<Image>();
         
     }
 
