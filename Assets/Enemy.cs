@@ -48,6 +48,20 @@ public class Enemy : MonoBehaviour
         Vector3 _hpBarPos = Camera.main.WorldToScreenPoint(new Vector3(transform.position.x, transform.position.y + height, 0));
         hpBar.position = _hpBarPos;
         nowHpbar.fillAmount = (float)nowHp / (float)maxHp;
+        if (transform.position.x < 0)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+            transform.Translate(Vector3.right * Time.deltaTime);
+        }
+        else if (transform.position.x > 0)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+            transform.Translate(Vector3.left * Time.deltaTime);
+        }
+        else if (transform.position.x == 0)
+        {
+
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D col)
