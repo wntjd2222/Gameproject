@@ -126,7 +126,7 @@ public class maincharc : MonoBehaviour
         }
     }
 
-   /* private void OnTriggerEnter2D(Collider2D col)
+    private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.CompareTag("Player"))
         {
@@ -138,5 +138,5 @@ public class maincharc : MonoBehaviour
                 Destroy(nowHpbar.gameObject);
             }
         }
-    }*/
+    }
 }

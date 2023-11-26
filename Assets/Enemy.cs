@@ -12,23 +12,28 @@ public class Enemy : MonoBehaviour
     public int maxHp;
     public int nowHp;
     public int atkDmg;
-    public int atkSpeed;
+    public float atkSpeed;
+    public float moveSpeed;
+    public float atkRange;
+    public float fieldOfVision;
 
-    private void SetEnemyStatus(string _enemyName, int _maxHp, int _atkDmg, int _atkSpeed)
+    private void SetEnemyStatus(string _enemyName, int _maxHp, int _atkDmg, float _atkSpeed, float _moveSpeed, float _atkRange, float _fieldOfVision)
     {
         enemyName = _enemyName;
         maxHp = _maxHp;
         nowHp = _maxHp;
         atkDmg = _atkDmg;
         atkSpeed = _atkSpeed;
+        moveSpeed = _moveSpeed;
+        atkRange = _atkRange;
+        fieldOfVision = _fieldOfVision;
     }
+    RectTransform hpBar;
+    public float height = 1.7f;
 
     public maincharc sword_man;
     Image nowHpbar;
-
-    RectTransform hpBar;
-
-    public float height = 1.7f;
+    public Animator enemyAnimator;
 
     // Start is called before the first frame update
     void Start()
@@ -36,10 +41,10 @@ public class Enemy : MonoBehaviour
         hpBar = Instantiate(prfHpBar, canvas.transform).GetComponent<RectTransform>();
         if(name.Equals("Enemy1"))
         {
-            SetEnemyStatus("Enemy1", 100, 10, 1);
+            SetEnemyStatus("Enemy1", 100, 10, 1.5f, 2, 1.5f, 7f);
         }
         nowHpbar = hpBar.transform.GetChild(0).GetComponent<Image>();
-        
+
     }
 
     // Update is called once per frame
@@ -58,9 +63,9 @@ public class Enemy : MonoBehaviour
             transform.localScale = new Vector3(-1, 1, 1);
             transform.Translate(Vector3.left * Time.deltaTime);
         }
-        else if (transform.position.x == 0)
+        else if (transform.position.x <= 0.5 && transform.position.x >= -0.5 && transform.position.y <= 0)
         {
-
+            nowHp = 0;
         }
     }
 
@@ -68,13 +73,15 @@ public class Enemy : MonoBehaviour
     {
         if(col.CompareTag("Player"))
         {
-            nowHp -= sword_man.atkDmg;
-            Debug.Log(nowHp);
-            sword_man.attacked = false;
-            if (nowHp <= 0)
+            if (sword_man.attacked)
             {
-                Destroy(gameObject);
-                Destroy(hpBar.gameObject);
+                nowHp -= sword_man.atkDmg;
+                sword_man.attacked = false;
+                if (nowHp <= 0)
+                {
+                    Destroy(gameObject);
+                    Destroy(hpBar.gameObject);
+                }
             }
         }
     }
