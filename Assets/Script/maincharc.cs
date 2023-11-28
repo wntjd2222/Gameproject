@@ -14,7 +14,7 @@ public class maincharc : MonoBehaviour
     public float atkSpeed = 1;
     public bool attacked = false;
     public Image nowHpbar;
-    public float jumpPower = 60;
+    public float jumpPower = 350;
     public float moveSpeed = 2;
 
     bool inputJump = false;
@@ -128,12 +128,14 @@ public class maincharc : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.CompareTag("Player"))
+        if (col.CompareTag("Player1"))
         {
             nowHp -= 10;
             Debug.Log(nowHp);
             if (nowHp <= 0)
             {
+                //gameover Àå¸é
+                animator.SetTrigger("die");
                 Destroy(gameObject);
                 Destroy(nowHpbar.gameObject);
             }

@@ -44,7 +44,7 @@ public class Enemy : MonoBehaviour
             SetEnemyStatus("Enemy1", 100, 10, 1.5f, 2, 1.5f, 7f);
         }
         nowHpbar = hpBar.transform.GetChild(0).GetComponent<Image>();
-
+        SetAttackSpeed(atkSpeed);
     }
 
     // Update is called once per frame
@@ -53,6 +53,7 @@ public class Enemy : MonoBehaviour
         Vector3 _hpBarPos = Camera.main.WorldToScreenPoint(new Vector3(transform.position.x, transform.position.y + height, 0));
         hpBar.position = _hpBarPos;
         nowHpbar.fillAmount = (float)nowHp / (float)maxHp;
+        /*
         if (transform.position.x < 0)
         {
             transform.localScale = new Vector3(1, 1, 1);
@@ -67,6 +68,7 @@ public class Enemy : MonoBehaviour
         {
             nowHp = 0;
         }
+        */
     }
 
     private void OnTriggerEnter2D(Collider2D col)
@@ -79,10 +81,28 @@ public class Enemy : MonoBehaviour
                 sword_man.attacked = false;
                 if (nowHp <= 0)
                 {
+                    /*
                     Destroy(gameObject);
                     Destroy(hpBar.gameObject);
+                    */
+                    Die();
                 }
             }
         }
+    }
+
+    void Die()
+    {
+        enemyAnimator.SetTrigger("die");
+        GetComponent<EnemyAI>().enabled = false;
+        GetComponent<Collider2D>().enabled = false;
+        Destroy(GetComponent<Rigidbody2D>());
+        Destroy(gameObject, 3);
+        Destroy(hpBar.gameObject, 3);
+    }
+
+    void SetAttackSpeed(float speed)
+    {
+        enemyAnimator.SetFloat("attackSpeed", speed);
     }
 }
