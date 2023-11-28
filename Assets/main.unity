@@ -590,7 +590,7 @@ MonoBehaviour:
   atkSpeed: 1
   attacked: 0
   nowHpbar: {fileID: 1993135692}
-  jumpPower: 170
+  jumpPower: 300
   moveSpeed: 4
 --- !u!251 &440168415
 PlatformEffector2D:
