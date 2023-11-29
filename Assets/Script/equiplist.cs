@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class equiplist : MonoBehaviour
 {
@@ -79,6 +80,11 @@ public class equiplist : MonoBehaviour
         byte[] hashValue = hm.ComputeHash(System.Text.Encoding.ASCII.GetBytes(input));
         string hash_convert = BitConverter.ToString(hashValue).Replace("-", "").ToLower();
         return hash_convert;
+    }
+
+    public void ReturnToGame()
+    {
+        SceneManager.LoadScene("main");
     }
 
     // Start is called before the first frame update

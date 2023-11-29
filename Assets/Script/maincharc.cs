@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class maincharc : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class maincharc : MonoBehaviour
     bool inputJump = false;
     bool inputRight = false;
     bool inputLeft = false;
+    bool isDead = false;
     Rigidbody2D rigid2D;
 
     BoxCollider2D col2D;
@@ -51,12 +53,15 @@ public class maincharc : MonoBehaviour
 
         rigid2D = GetComponent<Rigidbody2D>();
         col2D = GetComponent<BoxCollider2D>();
+
+        StartCoroutine(CheckcharcDeath());
         
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (isDead) return;
         nowHpbar.fillAmount = (float)nowHp / (float)maxHp;
         /*float h = Input.GetAxis("Horizontal");
         if (h > 0)
@@ -91,11 +96,16 @@ public class maincharc : MonoBehaviour
         {
             AttackTrue();
             animator.SetTrigger("attack");
+            SFXManager.Instance.PlaySound(SFXManager.Instance.playerAttack);
             AttackFalse();
         }
         if (Input.GetKeyDown(KeyCode.Space) && !animator.GetBool("jumping"))
         {
             inputJump = true;
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            SceneManager.LoadScene("DBscene");
         }
         RaycastHit2D raycastHit = Physics2D.BoxCast(col2D.bounds.center, col2D.bounds.size, 0f, Vector2.down, 0.02f, LayerMask.GetMask("Ground"));
         if (raycastHit.collider != null)
@@ -139,6 +149,26 @@ public class maincharc : MonoBehaviour
                 Destroy(gameObject);
                 Destroy(nowHpbar.gameObject);
             }
+        }
+    }
+
+    IEnumerator CheckcharcDeath()
+    {
+        while (true)
+        {
+            if(transform.position.y < -8)
+            {
+                SceneManager.LoadScene("main");
+            }
+
+            if(nowHp <= 0)
+            {
+                isDead = true;
+                animator.SetTrigger("die");
+                yield return new WaitForSeconds(2);
+                SceneManager.LoadScene("Title");
+            }
+            yield return new WaitForEndOfFrame();
         }
     }
 }
