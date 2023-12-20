@@ -17,17 +17,9 @@ public class Enemy : MonoBehaviour
     public float atkRange;
     public float fieldOfVision;
 
-    private void SetEnemyStatus(string _enemyName, int _maxHp, int _atkDmg, float _atkSpeed, float _moveSpeed, float _atkRange, float _fieldOfVision)
-    {
-        enemyName = _enemyName;
-        maxHp = _maxHp;
-        nowHp = _maxHp;
-        atkDmg = _atkDmg;
-        atkSpeed = _atkSpeed;
-        moveSpeed = _moveSpeed;
-        atkRange = _atkRange;
-        fieldOfVision = _fieldOfVision;
-    }
+    public Status status;
+    public UnitCode unitCode;
+
     RectTransform hpBar;
     public float height = 1.7f;
 
@@ -39,11 +31,11 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         hpBar = Instantiate(prfHpBar, canvas.transform).GetComponent<RectTransform>();
-        if(name.Equals("Enemy1"))
-        {
-            SetEnemyStatus("Enemy1", 100, 10, 1.5f, 2, 1.5f, 7f);
-        }
         nowHpbar = hpBar.transform.GetChild(0).GetComponent<Image>();
+
+        status = new Status();
+        status = status.SetUnitStatus(unitCode);
+
         SetAttackSpeed(atkSpeed);
     }
 
@@ -77,7 +69,7 @@ public class Enemy : MonoBehaviour
         {
             if (sword_man.attacked)
             {
-                nowHp -= sword_man.atkDmg;
+                nowHp -= sword_man.status.atkDmg;
                 sword_man.attacked = false;
                 if (nowHp <= 0)
                 {

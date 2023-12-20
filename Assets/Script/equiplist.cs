@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using MySql.Data.MySqlClient;
 
 public class equiplist : MonoBehaviour
 {
@@ -19,6 +20,10 @@ public class equiplist : MonoBehaviour
     public Text nameResultText;
     public Text powerResultText;
     public Text healthResultText;
+    public Text updatenameTextInput;
+
+    public int atkDmg = 50;
+    public int maxHp = 50;
 
     public void GetequipBtn()
     {
@@ -80,6 +85,40 @@ public class equiplist : MonoBehaviour
         byte[] hashValue = hm.ComputeHash(System.Text.Encoding.ASCII.GetBytes(input));
         string hash_convert = BitConverter.ToString(hashValue).Replace("-", "").ToLower();
         return hash_convert;
+    }
+
+    public void UpdateequipBtn()
+    {
+        // 위랑 다른 버젼의 mysql 접속법
+        try
+        {
+            MySqlConnection connection = new MySqlConnection("Server = localhost;Database=login;Uid=root;Pwd=ljss0117;");
+
+            connection.Open();
+
+            string equipname = updatenameTextInput.text;
+            string selectQuery = "SELECT * FROM equipment WHERE name = \'" + equipname + "\' ";
+
+            MySqlCommand Selectcommand = new MySqlCommand(selectQuery, connection);
+
+            MySqlDataReader equiplist = Selectcommand.ExecuteReader();
+
+            while (equiplist.Read())
+            {
+                if (equipname == (string)equiplist["name"])
+                {
+                    atkDmg = (float)equiplist["power"];
+                    maxHp = (float)equiplist["health"];
+                }
+            }
+            connection.Close();
+
+
+        }
+        catch (Exception ex)
+        {
+            SceneManager.LoadScene("Error");
+        }
     }
 
     public void ReturnToGame()

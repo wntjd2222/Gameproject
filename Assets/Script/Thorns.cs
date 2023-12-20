@@ -9,8 +9,8 @@ public class Thorns : MonoBehaviour
         if (col.CompareTag("Player1"))
         {
             maincharc swordman = col.GetComponent<maincharc>();
-            swordman.nowHp -= 10;
-            if (swordman.nowHp < 0) swordman.nowHp = 0;
+            swordman.status.nowHp -= 10;
+            if (swordman.status.nowHp < 0) swordman.status.nowHp = 0;
         }
     }
 

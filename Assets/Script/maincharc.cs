@@ -9,14 +9,9 @@ public class maincharc : MonoBehaviour
     public GameObject character;
     Animator animator;
 
-    public int maxHp;
-    public int nowHp;
-    public int atkDmg;
-    public float atkSpeed = 1;
     public bool attacked = false;
     public Image nowHpbar;
     public float jumpPower = 350;
-    public float moveSpeed = 2;
 
     bool inputJump = false;
     bool inputRight = false;
@@ -25,6 +20,9 @@ public class maincharc : MonoBehaviour
     Rigidbody2D rigid2D;
 
     BoxCollider2D col2D;
+
+    public Status status;
+   
 
     void AttackTrue()
     {
@@ -37,15 +35,14 @@ public class maincharc : MonoBehaviour
     void SetAttackSpeed(float speed)
     {
         animator.SetFloat("attackSpeed", speed);
-        atkSpeed = speed;
+        status.atkSpeed = speed;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        maxHp = 50;
-        nowHp = 50;
-        atkDmg = 10;
+        status = new Status();
+        status = status.SetUnitStatus(UnitCode.swordman);
 
         character.transform.position = new Vector3(0,0,0);
         animator = GetComponent<Animator>();
@@ -62,7 +59,7 @@ public class maincharc : MonoBehaviour
     void Update()
     {
         if (isDead) return;
-        nowHpbar.fillAmount = (float)nowHp / (float)maxHp;
+        nowHpbar.fillAmount = (float)status.nowHp / (float)status.maxHp;
         /*float h = Input.GetAxis("Horizontal");
         if (h > 0)
         {
@@ -119,13 +116,13 @@ public class maincharc : MonoBehaviour
         {
             inputRight = false;
             //rigid2D.AddForce(Vector2.right * moveSpeed);
-            rigid2D.velocity = new Vector2(moveSpeed, rigid2D.velocity.y);
+            rigid2D.velocity = new Vector2(status.moveSpeed, rigid2D.velocity.y);
         }
         if(inputLeft)
         {
             inputLeft = false;
             //rigid2D.AddForce(Vector2.left * moveSpeed);
-            rigid2D.velocity = new Vector2(-moveSpeed, rigid2D.velocity.y);
+            rigid2D.velocity = new Vector2(-status.moveSpeed, rigid2D.velocity.y);
         }
         //if (rigid2D.velocity.x >= 2.5f) rigid2D.velocity = new Vector2(2.5f, rigid2D.velocity.y);
         //else if (rigid2D.velocity.x <= -2.5f) rigid2D.velocity = new Vector2(-2.5f, rigid2D.velocity.y);
@@ -140,9 +137,9 @@ public class maincharc : MonoBehaviour
     {
         if (col.CompareTag("Player1"))
         {
-            nowHp -= 10;
-            Debug.Log(nowHp);
-            if (nowHp <= 0)
+            status.nowHp -= 10;
+            Debug.Log(status.nowHp);
+            if (status.nowHp <= 0)
             {
                 //gameover Àå¸é
                 animator.SetTrigger("die");
@@ -161,7 +158,7 @@ public class maincharc : MonoBehaviour
                 SceneManager.LoadScene("main");
             }
 
-            if(nowHp <= 0)
+            if(status.nowHp <= 0)
             {
                 isDead = true;
                 animator.SetTrigger("die");
