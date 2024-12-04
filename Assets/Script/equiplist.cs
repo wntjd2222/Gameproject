@@ -11,6 +11,7 @@ using MySql.Data.MySqlClient;
 
 public class equiplist : MonoBehaviour
 {
+    
     private string secretKey = "LJS";
     public string addequipmentsURL = "http://localhost/EquipmentGame/addequipment.php?";
     public string bestequipURL = "http://localhost/EquipmentGame/display.php";
@@ -21,9 +22,9 @@ public class equiplist : MonoBehaviour
     public Text powerResultText;
     public Text healthResultText;
     public Text updatenameTextInput;
-
-    public int atkDmg = 50;
-    public int maxHp = 50;
+    
+    public float atkDmg = 50.0f;
+    public float maxHp = 50.0f;
 
     public void GetequipBtn()
     {
@@ -65,19 +66,20 @@ public class equiplist : MonoBehaviour
             }
         }
     }
-    IEnumerator Postequips(string name, int power, int health)
+    
+    IEnumerator Postequips(string name, float power, float health)
     {
         string hash = HashInput(name + power + health + secretKey);
         string post_url = addequipmentsURL + "name=" + UnityWebRequest.EscapeURL(name) 
             + "&power=" + power + "&health" + health + "&hash=" + hash;
-        UnityWebRequest be_post = UnityWebRequest.Post(post_url, hash);
+        UnityWebRequest be_post = UnityWebRequest.PostWwwForm(post_url, hash);
         yield return be_post.SendWebRequest();
         if(be_post.error != null)
         {
             Debug.Log("There was an error posting the equipments: " + be_post.error);
         }
-
     }
+    
 
     public string HashInput(string input)
     {
@@ -86,10 +88,10 @@ public class equiplist : MonoBehaviour
         string hash_convert = BitConverter.ToString(hashValue).Replace("-", "").ToLower();
         return hash_convert;
     }
-
+    
     public void UpdateequipBtn()
     {
-        // À§¶û ´Ù¸¥ ¹öÁ¯ÀÇ mysql Á¢¼Ó¹ý
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ mysql ï¿½ï¿½ï¿½Ó¹ï¿½
         try
         {
             MySqlConnection connection = new MySqlConnection("Server = localhost;Database=login;Uid=root;Pwd=ljss0117;");
@@ -120,6 +122,7 @@ public class equiplist : MonoBehaviour
             SceneManager.LoadScene("Error");
         }
     }
+    
 
     public void ReturnToGame()
     {

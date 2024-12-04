@@ -70,7 +70,7 @@ public class EnemyAI : MonoBehaviour
 
     void AttackTarget()
     {
-        target.GetComponent<maincharc>().nowHp -= enemy.atkDmg;
+        target.GetComponent<maincharc>().status.nowHp -= enemy.atkDmg;
         enemyAnimator.SetTrigger("attack");
         attackDelay = enemy.atkSpeed;
     }

@@ -1,13 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Networking;
 using MySql.Data.MySqlClient;
 
 public class LoginManager : MonoBehaviour
 {
+    
     [Header("LoginPanel")]
     public InputField IDInputField;
     public InputField PWInputFiled;
@@ -32,7 +36,7 @@ public class LoginManager : MonoBehaviour
         
     }
 
-    private void btn_login_Click(object sender, EventArgs e)
+    private void btn_login_Click()
     {
         try
         {
@@ -74,8 +78,9 @@ public class LoginManager : MonoBehaviour
         }
     }
     
-    private void btn_newmember_Click(object sender, EventArgs e)
+    private void btn_newmember_Click()
     {
+        
         try
         {
             MySqlConnection connection = new MySqlConnection("Server = localhost;Database=login;Uid=root;Pwd=ljss0117;");
@@ -100,5 +105,7 @@ public class LoginManager : MonoBehaviour
         {
             SceneManager.LoadScene("Error");
         }
+        
+        SceneManager.LoadScene("DBscene");
     }
 }

@@ -9,9 +9,9 @@ public class Enemy : MonoBehaviour
     public GameObject canvas;
 
     public string enemyName;
-    public int maxHp;
-    public int nowHp;
-    public int atkDmg;
+    public float maxHp;
+    public float nowHp;
+    public float atkDmg;
     public float atkSpeed;
     public float moveSpeed;
     public float atkRange;

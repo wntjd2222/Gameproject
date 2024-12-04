@@ -31,9 +31,9 @@ public class Status
 
     public UnitCode unitCode { get; }
     public string name { get; set; }
-    public int maxHp { get; set; }
-    public int nowHp { get; set; }
-    public int atkDmg { get; set; }
+    public float maxHp { get; set; }
+    public float nowHp { get; set; }
+    public float atkDmg { get; set; }
     public float atkSpeed { get; set; }
     public float moveSpeed { get; set; }
     public float atkRange { get; set; }
@@ -43,7 +43,7 @@ public class Status
     {
     }
 
-    public Status(UnitCode unitCode, string name, int maxHp, int atkDmg, float atkSpeed, 
+    public Status(UnitCode unitCode, string name, float maxHp, float atkDmg, float atkSpeed, 
                   float moveSpeed, float atkRange, float fieldOfVision)
     {
         this.unitCode = unitCode;
@@ -64,7 +64,7 @@ public class Status
         switch (unitCode)
         {
             case UnitCode.swordman:
-                status = new Status(unitCode, "소드맨", equip.maxHp, equip.atkDmg, 1f, 8f, 0, 0);
+                status = new Status(unitCode, "소드맨", equip.maxHp, equip.atkDmg, 1f, 8f, 0.0f, 0.0f);
                 break;
             case UnitCode.enemy1:
                 status = new Status(unitCode, "Enemy1", 100, 10, 1.5f, 2f, 1.5f, 7f);
